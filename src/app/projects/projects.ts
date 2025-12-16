@@ -26,6 +26,22 @@ export const projects: Project[] = [
     githubUrl: "https://github.org/cubernetes/ft-transcendence",
   },
   {
+    name: "Lead Manager",
+    description:
+      "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "HubSpot API",
+      "LinkedIn integrations",
+      "Whisper",
+    ],
+    status: "active",
+    projectUrl: "https://lead-manager-woad.vercel.app",
+    githubUrl: "https://github.com/OwnerOfJK/lead_manager",
+  },
+  {
     name: "DishDetect",
     description:
       "Web application that estimates dishwasher fill percentage via a fine-tuned RF-DETR model and provides visual detection with LLM-based suggestions.", 
@@ -56,22 +72,6 @@ export const projects: Project[] = [
     status: "in-progress",
     projectUrl: "",
     githubUrl: "https://github.com/OwnerOfJK/linda",
-  },
-  {
-    name: "Lead Manager",
-    description:
-      "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
-    techStack: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "HubSpot API",
-      "LinkedIn integrations",
-      "Whisper",
-    ],
-    status: "active",
-    projectUrl: "https://lead-manager-woad.vercel.app",
-    githubUrl: "https://github.com/OwnerOfJK/lead_manager",
   },
   {
     name: "PixeLAW Core",
