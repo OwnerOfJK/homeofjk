@@ -219,9 +219,9 @@ const IframeError = ({ url }: { url: string }) => (
 );
 
 const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
-  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10 bg-gradient-to-t from-black/80 via-black/60 to-transparent pointer-events-none">
+  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10 bg-gradient-to-t from-black/80 via-black/60 to-transparent">
     <div className="flex items-end justify-between gap-4">
-      <div className="flex-1 pointer-events-auto">
+      <div className="flex-1">
         <div className="flex items-center gap-3 mb-3">
           <h2>
             <a className="text-2xl md:text-3xl font-bold text-white hover:text-[#1A73E8] transition-colors" href={project.projectUrl || project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -242,7 +242,7 @@ const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
         )}
       </div>
       {STATUS_LABELS[project.status!] && (
-        <span className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold backdrop-blur-sm border pointer-events-auto self-start bg-blue-800/60 text-blue-200 border-blue-300/50">
+        <span className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold backdrop-blur-sm border self-start bg-blue-800/60 text-blue-200 border-blue-300/50">
           {STATUS_LABELS[project.status!]}
         </span>
       )}
