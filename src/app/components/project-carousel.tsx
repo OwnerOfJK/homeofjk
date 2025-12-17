@@ -183,6 +183,20 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
 }
 
 // Extracted components
+const SwipeIndicator = () => (
+  <div className="md:hidden absolute bottom-2 left-0 right-0 pointer-events-none z-20 px-4">
+    <div className="flex justify-between items-center">
+      <div className="animate-pulse">
+        <FaChevronLeft className="text-white/60 drop-shadow-lg" size={20} />
+      </div>
+      <a className="text-white/20">Swipe</a>
+      <div className="animate-pulse">
+        <FaChevronRight className="text-white/60 drop-shadow-lg" size={20} />
+      </div>
+    </div>
+  </div>
+);
+
 const NavButton = ({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) => (
   <button
     onClick={onClick}
@@ -240,6 +254,7 @@ const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
             ))}
           </div>
         )}
+        <SwipeIndicator />
       </div>
       {STATUS_LABELS[project.status!] && (
         <span className="hidden md:inline-flex px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold backdrop-blur-sm border self-start bg-blue-800/60 text-blue-200 border-blue-300/50">
