@@ -11,7 +11,7 @@ export default function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-white">
+    <div className="min-h-screen md:h-screen w-screen flex flex-col bg-white overflow-y-auto md:overflow-hidden">
       {/* Profile Section - Header Area */}
       <div className="flex flex-col items-center gap-4 pt-8 pb-6 px-6">
         <Profile />
@@ -19,7 +19,7 @@ export default function Home() {
       </div>
 
       {/* Project Display - Main Content Area */}
-      <div className="flex-1 relative flex items-center justify-center">
+      <div className="h-[80vh] md:flex-1 relative flex items-center justify-center">
         <ProjectCarousel currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
       </div>
 

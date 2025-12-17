@@ -108,7 +108,7 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
         style={{ zIndex, pointerEvents: isCurrent ? "auto" : "none" }}
       >
         <div
-          className="w-full max-w-4xl h-[600px] md:h-[650px] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out relative"
+          className="w-full max-w-4xl h-[75vh] md:h-[650px] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out relative"
           style={{ transform, opacity, cursor: isCurrent ? (drag.active ? "grabbing" : "grab") : "default" }}
           onMouseDown={isCurrent ? e => handleDrag("start", e.clientX) : undefined}
           onTouchStart={isCurrent ? e => handleDrag("start", e.touches[0].clientX) : undefined}
@@ -186,7 +186,7 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
 const NavButton = ({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) => (
   <button
     onClick={onClick}
-    className={`absolute top-1/2 ${direction === "left" ? "left-4" : "right-4"} -translate-y-1/2 z-30 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2`}
+    className={`hidden md:block absolute top-1/2 ${direction === "left" ? "left-4" : "right-4"} -translate-y-1/2 z-30 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1A73E8] focus:ring-offset-2`}
     aria-label={`${direction === "left" ? "Previous" : "Next"} project`}
   >
     {direction === "left" ? <FaChevronLeft className="text-[#1A73E8]" size={18} /> : <FaChevronRight className="text-[#1A73E8]" size={18} />}
@@ -232,9 +232,9 @@ const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
             <FaGithub size={24} />
           </a>
         </div>
-        <p className="text-sm md:text-base text-white/90 leading-relaxed mb-3">{project.description}</p>
+        <p className="hidden md:block text-sm md:text-base text-white/90 leading-relaxed mb-3">{project.description}</p>
         {project.techStack &&  project.techStack?.length > 0 && (
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden md:flex flex-wrap gap-2">
             {project.techStack.map(tech => (
               <span key={tech} className="px-2.5 py-1 bg-white/20 backdrop-blur-sm text-white rounded text-xs font-medium border border-white/30">{tech}</span>
             ))}
@@ -242,7 +242,7 @@ const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
         )}
       </div>
       {STATUS_LABELS[project.status!] && (
-        <span className="px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold backdrop-blur-sm border self-start bg-blue-800/60 text-blue-200 border-blue-300/50">
+        <span className="hidden md:inline-flex px-3 py-1.5 rounded-lg text-xs md:text-sm font-semibold backdrop-blur-sm border self-start bg-blue-800/60 text-blue-200 border-blue-300/50">
           {STATUS_LABELS[project.status!]}
         </span>
       )}
