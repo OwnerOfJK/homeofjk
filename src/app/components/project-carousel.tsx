@@ -18,6 +18,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default function ProjectCarousel({ currentIndex, setCurrentIndex }: ProjectCarouselProps) {
   const [iframeState, setIframeState] = useState<"loading" | "loaded" | "error">("loading");
+  const [retryCount, setRetryCount] = useState(0);
   const [drag, setDrag] = useState({ active: false, startX: 0, offsetX: 0, startTime: 0 });
 
   const currentProject = projects[currentIndex];
@@ -59,14 +60,24 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goToPrevious, goToNext]);
 
-  // Iframe timeout
+  // Iframe timeout with retry logic
   useEffect(() => {
     setIframeState("loading");
+    setRetryCount(0);
     const timeout = setTimeout(() => {
-      setIframeState(s => s === "loading" ? "error" : s);
+      setIframeState(s => {
+        if (s === "loading") {
+          if (retryCount < 2) {
+            setRetryCount(prev => prev + 1);
+            return "loading"; // Trigger reload
+          }
+          return "error";
+        }
+        return s;
+      });
     }, 5000);
     return () => clearTimeout(timeout);
-  }, [currentIndex]);
+  }, [currentIndex, retryCount]);
 
   // Global mouse events for drag
   useEffect(() => {
@@ -120,12 +131,21 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
                   <IframeError url={project.projectUrl!} />
                 ) : (
                   <iframe
+                    key={`${project.projectUrl}-${retryCount}`}
                     src={isCurrent ? project.projectUrl : undefined}
                     className="absolute inset-0 w-full h-full border-0 rounded-3xl"
                     title={`${project.name} demo`}
                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
                     onLoad={() => isCurrent && setIframeState("loaded")}
-                    onError={() => isCurrent && setIframeState("error")}
+                    onError={() => {
+                      if (isCurrent) {
+                        if (retryCount < 2) {
+                          setRetryCount(prev => prev + 1);
+                        } else {
+                          setIframeState("error");
+                        }
+                      }
+                    }}
                   />
                 )}
               </div>
