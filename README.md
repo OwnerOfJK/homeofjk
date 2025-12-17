@@ -1,4 +1,4 @@
-# John Kaller - Portfolio
+# John Kaller - Home
 
 My personal website that includes projects I was working on.
 
@@ -18,5 +18,5 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ## 📄 License
 
-MIT License - feel free to use this as a template for your own portfolio!
+MIT License - feel free to use this as a template for your own site!
 
