@@ -14,7 +14,7 @@ export default function ProgressIndicators({
   onIndexChange,
 }: ProgressIndicatorsProps) {
   return (
-    <div className="hidden md:flex justify-center gap-2 mt-10 pb-8">
+    <div className="hidden md:flex justify-center gap-2 mt-auto pb-6">
       {projects.map((_, index) => (
         <button
           key={index}

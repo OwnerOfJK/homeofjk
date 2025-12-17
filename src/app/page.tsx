@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Profile from '@/app/components/profile';
-import Socials from '@/app/components/socials';
 import ProjectCarousel from '@/app/components/project-carousel';
 import ProgressIndicators from '@/app/components/progress-indicators';
 import { projects } from '@/app/projects/projects';
@@ -13,13 +12,12 @@ export default function Home() {
   return (
     <div className="min-h-screen md:h-screen w-screen flex flex-col bg-white overflow-y-auto md:overflow-hidden">
       {/* Profile Section - Header Area */}
-      <div className="flex flex-col items-center gap-4 pt-8 pb-6 px-6">
+      <div className="flex flex-col items-center gap-4 pt-8 pb-2 md:pb-14 px-6">
         <Profile />
-        <Socials />
       </div>
 
       {/* Project Display - Main Content Area */}
-      <div className="h-[80vh] md:flex-1 relative flex items-center justify-center">
+      <div className="h-[80vh] md:flex-1 relative flex items-center justify-center mb-4 md:mb-12">
         <ProjectCarousel currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
       </div>
 

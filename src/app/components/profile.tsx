@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Socials from './socials';
 
 export default function Profile() {
   return (
@@ -11,9 +12,15 @@ export default function Profile() {
         className="rounded-full shadow-md"
         priority
       />
-      <div className="text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">John Kaller</h1>
-        <p className="text-base text-gray-600 mt-1">Building software & exploring ideas</p>
+      <div className="text-center max-w-2xl">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4">
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-900">John Kaller</h1>
+          <Socials />
+        </div>
+        <p className="text-sm md:text-base text-gray-600 mt-2 leading-relaxed">
+          <span className="font-semibold">Full-stack product builder</span> with 6 years of experience building early-stage companies,
+          comfortable owning problems end to end. <span className="font-semibold">Two-time founder</span> in social media and AI education. Fluent in Chinese, German, and English; conversational in Portuguese.
+        </p>
       </div>
     </div>
   );
