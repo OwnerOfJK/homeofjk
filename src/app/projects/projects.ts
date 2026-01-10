@@ -10,22 +10,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    name: "ft-transcendence",
-    description:
-      "A full-stack realtime multiplayer Pong web app including user accounts, tournaments, stats, and admin observability, built as the final project of the 42 core curriculum.", 
-    techStack: [
-      "TypeScript",
-      "Node.js",
-      "WebSockets",
-      "Docker",
-      "PostgreSQL",
-      "Tailwind CSS",
-    ],
-    status: "active",
-    projectUrl: "https://ft-transcendence.app",
-    githubUrl: "https://github.org/cubernetes/ft-transcendence",
-  },
-  {
     name: "Lead Manager",
     description:
       "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
@@ -42,20 +26,20 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/OwnerOfJK/lead_manager",
   },
   {
-    name: "DishDetect",
+    name: "Leaf",
     description:
-      "Web application that estimates dishwasher fill percentage via a fine-tuned RF-DETR model and provides visual detection with LLM-based suggestions.", 
+      "AI-native book recommendation platform integrating Langfuse for analytics and interaction tracking.",
     techStack: [
       "Next.js",
       "React",
       "TypeScript",
-      "Roboflow",
-      "RF-DETR",
-      "Object Detection",
+      "PostgreSQL",
+      "RAG Pipeline",
+      "Langfuse",
     ],
     status: "active",
-    projectUrl: "https://dishwash-object-detector.vercel.app/", 
-    githubUrl: "https://github.com/OwnerOfJK/DishDetect",
+    projectUrl: "https://leaf-books.com/",
+    githubUrl: "https://github.com/OwnerOfJK/leaf",
   },
   {
     name: "Linda",
@@ -72,6 +56,22 @@ export const projects: Project[] = [
     status: "in-progress",
     projectUrl: "",
     githubUrl: "https://github.com/OwnerOfJK/linda",
+  },
+  {
+    name: "ft-transcendence",
+    description:
+      "A full-stack realtime multiplayer Pong web app including user accounts, tournaments, stats, and admin observability, built as the final project of the 42 core curriculum.", 
+    techStack: [
+      "TypeScript",
+      "Node.js",
+      "WebSockets",
+      "Docker",
+      "PostgreSQL",
+      "Tailwind CSS",
+    ],
+    status: "active",
+    projectUrl: "https://ft-transcendence.app",
+    githubUrl: "https://github.org/cubernetes/ft-transcendence",
   },
   {
     name: "PixeLAW Core",
@@ -92,7 +92,7 @@ export const projects: Project[] = [
   {
     name: "unpackai",
     description:
-      "The Unpack.AI library — a toolkit for working with AI models and LLM workflows in code (langchain-style utilities and integrations).",
+      "The Unpack.AI library — The library to ease your learning, building and the deployment of state-of-the-art deep learning models. Built on top of fastAI.",
     techStack: [
       "Python",
       "Machine Learning",
@@ -103,19 +103,19 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/unpackAI/unpackai",
   },
   {
-    name: "Leaf",
+    name: "DishDetect",
     description:
-      "AI-native book recommendation platform integrating Langfuse for analytics and interaction tracking.",
+      "Web application that estimates dishwasher fill percentage via a fine-tuned RF-DETR model and provides visual detection with LLM-based suggestions.", 
     techStack: [
       "Next.js",
       "React",
       "TypeScript",
-      "PostgreSQL",
-      "RAG Pipeline",
-      "Langfuse",
+      "Roboflow",
+      "RF-DETR",
+      "Object Detection",
     ],
-    status: "in-progress",
-    projectUrl: "",
-    githubUrl: "https://github.com/OwnerOfJK/leaf",
+    status: "active",
+    projectUrl: "https://dishwash-object-detector.vercel.app/", 
+    githubUrl: "https://github.com/OwnerOfJK/DishDetect",
   },
 ];
