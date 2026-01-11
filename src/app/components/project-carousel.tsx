@@ -109,11 +109,7 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
       >
         <div
           className="w-full max-w-4xl h-[75vh] md:h-[650px] bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ease-out relative"
-          style={{ transform, opacity, cursor: isCurrent ? (drag.active ? "grabbing" : "grab") : "default" }}
-          onMouseDown={isCurrent ? e => handleDrag("start", e.clientX) : undefined}
-          onTouchStart={isCurrent ? e => handleDrag("start", e.touches[0].clientX) : undefined}
-          onTouchMove={isCurrent ? e => handleDrag("move", e.touches[0].clientX) : undefined}
-          onTouchEnd={isCurrent ? () => handleDrag("end") : undefined}
+          style={{ transform, opacity }}
         >
           {/* Active project content */}
           {project.status === "active" && (
@@ -163,7 +159,12 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
           )}
 
           {/* Info overlay */}
-          <ProjectOverlay project={project} />
+          <ProjectOverlay
+            project={project}
+            isCurrent={isCurrent}
+            drag={drag}
+            handleDrag={handleDrag}
+          />
         </div>
       </div>
     );
@@ -232,8 +233,28 @@ const IframeError = ({ url }: { url: string }) => (
   </div>
 );
 
-const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
-  <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-10 bg-gradient-to-t from-black/80 via-black/60 to-transparent">
+const ProjectOverlay = ({
+  project,
+  isCurrent,
+  drag,
+  handleDrag
+}: {
+  project: typeof projects[0];
+  isCurrent: boolean;
+  drag: { active: boolean; startX: number; offsetX: number; startTime: number };
+  handleDrag: (type: "start" | "move" | "end", clientX?: number) => void;
+}) => (
+  <div
+    className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-30 bg-gradient-to-t from-black/80 via-black/60 to-transparent"
+    style={{
+      cursor: isCurrent ? (drag.active ? "grabbing" : "grab") : "default",
+      touchAction: "none"
+    }}
+    onMouseDown={isCurrent ? e => handleDrag("start", e.clientX) : undefined}
+    onTouchStart={isCurrent ? e => handleDrag("start", e.touches[0].clientX) : undefined}
+    onTouchMove={isCurrent ? e => handleDrag("move", e.touches[0].clientX) : undefined}
+    onTouchEnd={isCurrent ? () => handleDrag("end") : undefined}
+  >
     <div className="flex items-end justify-between gap-4">
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-3">
@@ -246,7 +267,7 @@ const ProjectOverlay = ({ project }: { project: typeof projects[0] }) => (
             <FaGithub size={24} />
           </a>
         </div>
-        <p className="hidden md:block text-sm md:text-base text-white/90 leading-relaxed mb-3">{project.description}</p>
+        <p className="text-xs md:text-base text-white/90 leading-relaxed mb-3">{project.description}</p>
         {project.techStack &&  project.techStack?.length > 0 && (
           <div className="hidden md:flex flex-wrap gap-2">
             {project.techStack.map(tech => (
