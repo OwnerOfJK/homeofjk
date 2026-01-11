@@ -19,7 +19,7 @@ const STATUS_LABELS: Record<string, string> = {
 export default function ProjectCarousel({ currentIndex, setCurrentIndex }: ProjectCarouselProps) {
   const [iframeState, setIframeState] = useState<"loading" | "loaded" | "error">("loading");
   const [retryCount, setRetryCount] = useState(0);
-  const [drag, setDrag] = useState({ active: false, startX: 0, offsetX: 0, startTime: 0 });
+  const [drag, setDrag] = useState({ active: false, startX: 0, startY: 0, offsetX: 0, offsetY: 0, startTime: 0, isHorizontal: false });
 
   const currentProject = projects[currentIndex];
   const nextProject = projects[(currentIndex + 1) % projects.length];
@@ -32,21 +32,32 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
   const goToPrevious = useCallback(() => navigate(-1), [navigate]);
   const goToNext = useCallback(() => navigate(1), [navigate]);
 
-  // Unified drag handler
-  const handleDrag = useCallback((type: "start" | "move" | "end", clientX = 0) => {
+  // Unified drag handler with horizontal/vertical detection
+  const handleDrag = useCallback((type: "start" | "move" | "end", clientX = 0, clientY = 0) => {
     if (type === "start") {
-      setDrag({ active: true, startX: clientX, offsetX: 0, startTime: Date.now() });
+      setDrag({ active: true, startX: clientX, startY: clientY, offsetX: 0, offsetY: 0, startTime: Date.now(), isHorizontal: false });
     } else if (type === "move" && drag.active) {
-      setDrag(d => ({ ...d, offsetX: clientX - d.startX }));
-    } else if (type === "end" && drag.active) {
-      const velocity = Math.abs(drag.offsetX) / (Date.now() - drag.startTime);
-      const threshold = window.innerWidth * 0.15;
-      
-      if (Math.abs(drag.offsetX) > threshold || velocity > 0.5) {
-        if (drag.offsetX < 0) goToNext();
-        else goToPrevious();
+      const offsetX = clientX - drag.startX;
+      const offsetY = clientY - drag.startY;
+
+      // Determine if this is a horizontal swipe (only on first significant movement)
+      if (!drag.isHorizontal && (Math.abs(offsetX) > 10 || Math.abs(offsetY) > 10)) {
+        const isHorizontal = Math.abs(offsetX) > Math.abs(offsetY);
+        setDrag(d => ({ ...d, offsetX, offsetY, isHorizontal }));
+      } else if (drag.isHorizontal) {
+        setDrag(d => ({ ...d, offsetX, offsetY }));
       }
-      setDrag(d => ({ ...d, active: false, offsetX: 0 }));
+    } else if (type === "end" && drag.active) {
+      if (drag.isHorizontal) {
+        const velocity = Math.abs(drag.offsetX) / (Date.now() - drag.startTime);
+        const threshold = window.innerWidth * 0.15;
+
+        if (Math.abs(drag.offsetX) > threshold || velocity > 0.5) {
+          if (drag.offsetX < 0) goToNext();
+          else goToPrevious();
+        }
+      }
+      setDrag(d => ({ ...d, active: false, offsetX: 0, offsetY: 0, isHorizontal: false }));
     }
   }, [drag, goToNext, goToPrevious]);
 
@@ -82,7 +93,7 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
   // Global mouse events for drag
   useEffect(() => {
     if (!drag.active) return;
-    const onMove = (e: MouseEvent) => handleDrag("move", e.clientX);
+    const onMove = (e: MouseEvent) => handleDrag("move", e.clientX, e.clientY);
     const onUp = () => handleDrag("end");
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
@@ -94,11 +105,11 @@ export default function ProjectCarousel({ currentIndex, setCurrentIndex }: Proje
 
   const renderCard = (project: typeof projects[0], isCurrent: boolean, zIndex: number) => {
     const transform = isCurrent
-      ? `translateX(${drag.offsetX}px) rotate(${drag.offsetX * 0.02}deg)`
+      ? (drag.isHorizontal ? `translateX(${drag.offsetX}px) rotate(${drag.offsetX * 0.02}deg)` : "")
       : "scale(0.95) translateY(20px)";
-    
+
     const opacity = isCurrent
-      ? (drag.active ? Math.max(0.3, 1 - Math.abs(drag.offsetX) / (window.innerWidth * 0.5)) : 1)
+      ? (drag.active && drag.isHorizontal ? Math.max(0.3, 1 - Math.abs(drag.offsetX) / (window.innerWidth * 0.5)) : 1)
       : 0.5;
 
     return (
@@ -241,20 +252,32 @@ const ProjectOverlay = ({
 }: {
   project: typeof projects[0];
   isCurrent: boolean;
-  drag: { active: boolean; startX: number; offsetX: number; startTime: number };
-  handleDrag: (type: "start" | "move" | "end", clientX?: number) => void;
-}) => (
-  <div
-    className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-30 bg-gradient-to-t from-black/80 via-black/60 to-transparent"
-    style={{
-      cursor: isCurrent ? (drag.active ? "grabbing" : "grab") : "default",
-      touchAction: "none"
-    }}
-    onMouseDown={isCurrent ? e => handleDrag("start", e.clientX) : undefined}
-    onTouchStart={isCurrent ? e => handleDrag("start", e.touches[0].clientX) : undefined}
-    onTouchMove={isCurrent ? e => handleDrag("move", e.touches[0].clientX) : undefined}
-    onTouchEnd={isCurrent ? () => handleDrag("end") : undefined}
-  >
+  drag: { active: boolean; startX: number; startY: number; offsetX: number; offsetY: number; startTime: number; isHorizontal: boolean };
+  handleDrag: (type: "start" | "move" | "end", clientX?: number, clientY?: number) => void;
+}) => {
+  const handleTouchStart = (e: React.TouchEvent) => {
+    handleDrag("start", e.touches[0].clientX, e.touches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    handleDrag("move", e.touches[0].clientX, e.touches[0].clientY);
+    // Only prevent default (block scrolling) if it's a horizontal swipe
+    if (drag.isHorizontal) {
+      e.preventDefault();
+    }
+  };
+
+  return (
+    <div
+      className="absolute bottom-0 left-0 right-0 p-6 md:p-8 z-30 bg-gradient-to-t from-black/80 via-black/60 to-transparent"
+      style={{
+        cursor: isCurrent ? (drag.active ? "grabbing" : "grab") : "default"
+      }}
+      onMouseDown={isCurrent ? e => handleDrag("start", e.clientX, e.clientY) : undefined}
+      onTouchStart={isCurrent ? handleTouchStart : undefined}
+      onTouchMove={isCurrent ? handleTouchMove : undefined}
+      onTouchEnd={isCurrent ? () => handleDrag("end") : undefined}
+    >
     <div className="flex items-end justify-between gap-4">
       <div className="flex-1">
         <div className="flex items-center gap-3 mb-3">
@@ -284,4 +307,5 @@ const ProjectOverlay = ({
       )}
     </div>
   </div>
-);
+  );
+};
