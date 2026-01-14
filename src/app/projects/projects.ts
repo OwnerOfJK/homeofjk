@@ -10,22 +10,6 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    name: "Lead Manager",
-    description:
-      "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
-    techStack: [
-      "Next.js",
-      "React",
-      "TypeScript",
-      "HubSpot API",
-      "LinkedIn integrations",
-      "Whisper",
-    ],
-    status: "active",
-    projectUrl: "https://lead-manager-woad.vercel.app",
-    githubUrl: "https://github.com/OwnerOfJK/lead_manager",
-  },
-  {
     name: "Leaf",
     description:
       "AI-native book recommendation platform integrating Langfuse for analytics and interaction tracking.",
@@ -40,6 +24,22 @@ export const projects: Project[] = [
     status: "active",
     projectUrl: "https://leaf-books.com/",
     githubUrl: "https://github.com/OwnerOfJK/leaf",
+  },
+  {
+    name: "Lead Manager",
+    description:
+      "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
+    techStack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "HubSpot API",
+      "LinkedIn integrations",
+      "Whisper",
+    ],
+    status: "active",
+    projectUrl: "https://lead-manager-woad.vercel.app",
+    githubUrl: "https://github.com/OwnerOfJK/lead_manager",
   },
   {
     name: "Linda",
