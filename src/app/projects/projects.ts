@@ -26,7 +26,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/OwnerOfJK/leaf",
   },
   {
-    name: "Lead Manager",
+    name: "Lead",
     description:
       "A comprehensive RevOps tool that automates lead data collection, enriches context with external sources, and provides an AI assistant for sales workflows.", 
     techStack: [
@@ -34,12 +34,12 @@ export const projects: Project[] = [
       "React",
       "TypeScript",
       "HubSpot API",
-      "LinkedIn integrations",
-      "Whisper",
+      "AUTH/OUATH",
+      "Identity Resolution"
     ],
     status: "active",
-    projectUrl: "https://lead-manager-woad.vercel.app",
-    githubUrl: "https://github.com/OwnerOfJK/lead_manager",
+    projectUrl: "https://lead.leaf-books.com/",
+    githubUrl: "https://github.com/OwnerOfJK/lead",
   },
   {
     name: "Linda",
